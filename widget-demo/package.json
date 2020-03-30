@@ -1,0 +1,20 @@
+{
+    "name": "widget-demo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "browser-sync start --server --files \"*.html, js/*.js, css/*.css, js/app/**/*\""
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/jccartwright/sandbox.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/jccartwright/sandbox/issues"
+    },
+    "homepage": "https://github.com/jccartwright/sandbox/widget-demo#readme"
+  }
