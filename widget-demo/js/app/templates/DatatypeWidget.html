@@ -1,3 +1,8 @@
 <div role="presentation">
-    <input type="text" data-dojo-attach-point="_datatypeText">
+    <input type="text" data-dojo-attach-point="_datatypeText" data-dojo-attach-event="onkeyup: updateDatatype">
+
+    <select data-dojo-attach-point="_categorySelect" data-dojo-attach-event="onchange: updateCategory" >
+        <!-- options to be added programatically -->
+        
+    </select>
 </div>

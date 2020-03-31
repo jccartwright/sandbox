@@ -18,10 +18,10 @@ require([
         zoom: 13
     });
 
-    datatypeWidget = new DatatypeWidget({datafile: './js/app/datatypes.json'}, 'datatypeWidgetDiv');
+    var datatypeWidget = new DatatypeWidget({datafile: './js/app/datatypes.json'}, 'datatypeWidgetDiv');
     datatypeWidget.startup();
     datatypeWidget.on('datatypes', function(datatypes){
-        console.log(datatypes)
+        // console.log(datatypes)
     })
 
 
