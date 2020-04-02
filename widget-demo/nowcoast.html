@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Simple Map</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.31/esri/css/esri.css">
+    <style>
+      html, body, #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://js.arcgis.com/3.31/"></script>
+    <script>
+      var map;
+
+      require([
+          "esri/map", 
+          "esri/request", 
+          "esri/config",
+          "esri/layers/ArcGISDynamicMapServiceLayer",
+          "esri/TimeExtent", 
+          "dojo/domReady!"
+        ], function(
+            Map, 
+            esriRequest, 
+            esriConfig,
+            ArcGISDynamicMapServiceLayer,
+            TimeExtent
+        ) {
+            esriConfig.defaults.io.corsEnabledServers.push('nowcoast.noaa.gov');
+
+            map = new Map("map", {
+            basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+            center: [-105, 40], // longitude, latitude
+            zoom: 4
+            });
+
+            layer = new ArcGISDynamicMapServiceLayer("https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/forecast_meteoceanhydro_sfc_ndfd_time/MapServer");
+            layer.setVisibleLayers([23])
+            map.addLayer(layer);
+
+            esriRequest({
+                url: 'https://nowcoast.noaa.gov/layerinfo',
+                handleAs: "json",
+                content: { 
+                    request: 'timestops',
+                    format: 'json',
+                    service: 'forecast_meteoceanhydro_sfc_ndfd_time',
+                    layers: 23
+                }
+            }).then(
+                function(response) {
+                    timeStops = response.layers[0].timeStops;
+                    // timeStops.forEach(function(timeStop){
+                    //     var d = new Date();
+                    //     d.setTime(timeStop);
+                    //     console.log(d.toUTCString());
+                    // })
+                    
+                    var forecast72 = getTimeExtent(timeStops)
+                    map.setTimeExtent(forecast72);
+                },
+                function(error) {
+                    console.error(error);
+                }
+            )
+
+
+            function getTimeExtent(timeStops) {
+                var d = new Date()
+                // 6th 12-hour interval
+                d.setTime(timeStops[5])
+                
+                var timeExtent = new TimeExtent();
+                // represent an instant in time
+                timeExtent.startTime = d;
+                timeExtent.endTime = d;
+
+                return(timeExtent);
+            }
+
+
+        });
+    </script>
+  </head>
+
+  <body>
+    <div id="map"></div>
+  </body>
+</html>
