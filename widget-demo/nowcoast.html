@@ -54,14 +54,10 @@
             }).then(
                 function(response) {
                     timeStops = response.layers[0].timeStops;
-                    // timeStops.forEach(function(timeStop){
-                    //     var d = new Date();
-                    //     d.setTime(timeStop);
-                    //     console.log(d.toUTCString());
-                    // })
-                    
-                    var forecast72 = getTimeExtent(timeStops)
-                    map.setTimeExtent(forecast72);
+                    animateTimeseries(timeStops);
+                    // show the 72-hour forecast
+                    // var forecastTime = getTimeExtent(timeStops[5])
+                    // map.setTimeExtent(forecastTime);
                 },
                 function(error) {
                     console.error(error);
@@ -69,17 +65,33 @@
             )
 
 
-            function getTimeExtent(timeStops) {
+            function getTimeExtent(timestamp) {
                 var d = new Date()
-                // 6th 12-hour interval
-                d.setTime(timeStops[5])
-                
+                d.setTime(timestamp)
                 var timeExtent = new TimeExtent();
                 // represent an instant in time
                 timeExtent.startTime = d;
                 timeExtent.endTime = d;
 
                 return(timeExtent);
+            }
+
+
+            function animateTimeseries(timestops) {
+                var interval = 3000;
+                var counter = 0;
+                timeStops.forEach(function(timeStop){
+                    setTimeout(function(){
+                        var d = new Date();
+                        d.setTime(timeStop);
+                        console.log(d.toUTCString());
+                        var timeExtent = new TimeExtent();
+                        timeExtent.startTime = d;
+                        timeExtent.endTime = d;
+                        map.setTimeExtent(timeExtent);
+                    }, counter);
+                    counter += interval
+                })
             }
 
 
