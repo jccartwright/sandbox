@@ -33,6 +33,12 @@ define([
 
             datatypes: null,
 
+            collections: [
+                {value: 1, label: 'one'},
+                {value: 2, label: 'two'},
+                {value: 3, label: 'three'}
+            ],
+
             // CSS class to be applied to the root node in our template
             baseClass: 'DatatypeWidget',
 
@@ -73,6 +79,8 @@ define([
                 on(this._datatypeText, 'keyup', lang.hitch(this, this.getMatchingValues));
 
                 this.populateCategorySelect();
+
+                this.createInputRadios(this.collections);
             },
 
 
@@ -95,6 +103,33 @@ define([
                     select.add(option);
                 })
             },
+
+
+            createInputRadios: function(collections) {
+                this.collections.forEach(function(collection){
+                    var radioDiv = this.createCollectionRadioButton(collection);
+                    this._collectionDiv.appendChild(radioDiv);    
+                }.bind(this));
+            },
+
+
+            createCollectionRadioButton: function(collection) {
+                var radioDiv = document.createElement("div");
+                var radioBtn = document.createElement("input");
+                radioBtn.setAttribute("type", "radio");
+                radioBtn.setAttribute("name", "collection");
+                radioBtn.setAttribute("value", collection.value);
+                radioBtn.addEventListener('click', function(){
+                     console.log(this.value)
+                });
+                radioDiv.appendChild(radioBtn);
+                
+                var radioLabel = document.createElement("label");
+                radioLabel.innerHTML = collection.label;
+                radioDiv.appendChild(radioLabel);
+                return(radioDiv);
+            },
+
 
             updateCategory: function(event) {
                 console.log('category is now '+event.target.value);
