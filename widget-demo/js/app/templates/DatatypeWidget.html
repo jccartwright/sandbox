@@ -1,7 +1,8 @@
 <div role="presentation" class="${baseClass}">
     <input type="text" data-dojo-attach-point="_datatypeText" data-dojo-attach-event="onkeyup: updateDatatype">
 
-    <select class="${baseClass}Category" data-dojo-attach-point="_categorySelect" data-dojo-attach-event="onchange: updateCategory" >
+    <!-- id attribute required to attach styles to this specific node -->
+    <select class="${baseClass}Category" data-dojo-attach-point="_categorySelect" id="_categorySelect" data-dojo-attach-event="onchange: updateCategory" >
         <!-- options to be added programatically -->
     </select>
 
