@@ -47,3 +47,12 @@ font-size: 20px;
     }
 }
 
+#widget_myDatatypeSelect {
+    font-size: 14px;
+}
+
+#widget_dateTextBoxDiv {
+    width:100px;
+    font-size: 12px;
+}
+

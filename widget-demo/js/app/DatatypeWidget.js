@@ -6,7 +6,9 @@ define([
     'dojo/store/Memory',
     'dijit/form/FilteringSelect',
     'dijit/_TemplatedMixin', 
-    'dijit/_WidgetBase', 
+    'dijit/_WidgetBase',
+    'dijit/_WidgetsInTemplateMixin',
+    "dojo/topic",
     'esri/request',
     'dojo/text!./templates/DatatypeWidget.html'],
     function(
@@ -14,14 +16,16 @@ define([
         Evented,
         lang,
         on,
-        Memory,
+        MemoryStore,
         FilteringSelect,
         _TemplatedMixin, 
         _WidgetBase,
+        _WidgetsInTemplateMixin,
+        topic,
         esriRequest,
         widgetTemplate
     ){
-        return declare([_WidgetBase, _TemplatedMixin, Evented], {
+        return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Evented], {
             // Widget's HTML template
             templateString: widgetTemplate,
 
@@ -148,6 +152,8 @@ define([
                 esriRequest(this.datafile, { responseType: "json"}).then(
                     function(response){
                         this.datatypes = response.data;
+                        this.memoryStore = new MemoryStore({data: response.data, idProperty: "id" });
+                        this.createFilteringSelect().bind(this);
                     }.bind(this),
                     function(error){
                         console.log('failed to load data file');
@@ -162,6 +168,30 @@ define([
                 var results = this.datatypes.filter(element => element.value.match(regex)).map(element => element.value);
                 // console.log(results);
                 this.emit('datatypes', results);
+            },
+
+            datatypeChangeHandler: function(datatype) {
+                // datatype not required so ignore empty values 
+                if(datatype) { 
+                    // console.log(datatype);
+                    // topic.publish("datatype/change", datatype);
+                    this.emit("datatype/change", datatype);
+
+                }
+            },
+
+            createFilteringSelect: function() {
+                var filteringSelect = new FilteringSelect({
+                    id: "datatypeSelect",
+                    name: "datatype",
+                    store: this.memoryStore,
+                    placeHolder: "Select a datatype",
+                    required: false,
+                    searchAttr: "value",
+                    identifier: "value",
+                    onChange: this.datatypeChangeHandler.bind(this),
+                }, this._filteringSelectDiv);
+                // startup() not needed when used in template?
             }
 
         });
