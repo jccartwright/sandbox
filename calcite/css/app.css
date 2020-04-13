@@ -1,0 +1,60 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+grid-area: header;
+background-color: #0079c1;
+}
+
+/* "footer" class also defined in Calcite which may precedence depending on 
+order in which styles are loaded */
+.footer {
+grid-area: footer;
+background-color: #0079c1;
+}
+
+.sidebar {
+grid-area: sidebar;
+background-color: #333;
+}
+
+.map {
+grid-area: map;
+}
+
+.wrapper {
+display: grid;
+/* grid-template-rows: 25%  25% auto; */
+grid-template-rows: 100px, 280px 200px 335px;
+grid-template-areas:
+"header"
+"sidebar"
+"map"
+"footer";
+width: 100vw;
+height: 100vh;
+}
+
+.box {
+color: black;
+padding: 10px;
+font-size: 20px; 
+}
+
+@media only screen and (min-width: 544px)  {
+.wrapper {
+grid-template-columns: 320px auto;
+grid-template-rows: 100px  auto 100px;
+grid-template-areas:
+    "header   header"
+    "sidebar  map"
+    "footer   footer";
+}
+}
+
+
