@@ -9,13 +9,34 @@ require([
     'esri/request',
     'dojo/on',
     "dojo/topic",
+    "esri/layers/GraphicsLayer", 
+    "esri/Graphic", 
+    "esri/geometry/Extent", 
+    "esri/geometry/support/webMercatorUtils",
     "dojo/domReady"
-], function(Map, MapView, DateTextBox, MemoryStore, FilteringSelect, globals, DatatypeWidget, esriRequest, on, topic) {
+], function(
+    Map, 
+    MapView, 
+    DateTextBox, 
+    MemoryStore, 
+    FilteringSelect, 
+    globals, 
+    DatatypeWidget, 
+    esriRequest, 
+    on, 
+    topic,
+    GraphicsLayer,
+    Graphic,
+    Extent,
+    webMercatorUtils) {
 
     console.log("application name: ", globals.getName());
+    var extentGraphic = null;
+    var layer = new GraphicsLayer();
 
     var map = new Map({
-        basemap: "topo-vector"
+        basemap: "topo-vector",
+        layers: [layer]
     });
 
     var view = new MapView({
@@ -24,6 +45,18 @@ require([
         center: [-118.80500, 34.02700],
         zoom: 13
     });
+
+    // tool to draw area of interest on map
+    view.ui.add("select-by-polygon", "top-left");
+    const drawExtentButton = document.getElementById("select-by-polygon");
+
+    let drawExtentBtnHandler = function() {
+        if (extentGraphic) { view.graphics.remove(extentGraphic) }
+        _setDrawHandler();
+    };
+      
+    drawExtentButton.addEventListener("click", drawExtentBtnHandler);
+
 
     var datatypeWidget = new DatatypeWidget({datafile: './js/app/datatypes.json'}, 'datatypeWidgetDiv');
     datatypeWidget.startup();
@@ -48,6 +81,10 @@ require([
         console.log('datatype changed to: ', arguments[0]);
     })
     
+    // do something with the area of interest
+    topic.subscribe("aoi/change", function(){
+        console.log('area of interest set to: ', arguments[0]);
+    })
 
 
     function loadDatatypes(datafile) {
@@ -92,5 +129,55 @@ require([
     }
 
 
+    var _setDrawHandler = function () {
+        var origin = null;
+        // Thanks to Thomas Solow (https://community.esri.com/thread/203242-draw-a-rectangle-in-jsapi-4x)
+        var handler = view.on('drag', function (e) {
+            e.stopPropagation();
+            if (e.action === 'start') {
+                if (extentGraphic) {
+                    view.graphics.remove(extentGraphic);
+                }
+                ;
+                origin = view.toMap(e);
+            }
+            else if (e.action === 'update') {
+                //fires continuously during drag
+                if (extentGraphic) {
+                    view.graphics.remove(extentGraphic);
+                }
+                ;
+                var p = view.toMap(e);
+                extentGraphic = new Graphic({
+                    geometry: new Extent({
+                        xmin: Math.min(p.x, origin.x),
+                        xmax: Math.max(p.x, origin.x),
+                        ymin: Math.min(p.y, origin.y),
+                        ymax: Math.max(p.y, origin.y),
+                        spatialReference: { wkid: 102100 }
+                    }),
+                    symbol: fillSymbol
+                }),
+                    view.graphics.add(extentGraphic);
+            }
+            else if (e.action === 'end') {
+                var _a = webMercatorUtils.webMercatorToGeographic(extentGraphic.geometry), xmin = _a.xmin, ymin = _a.ymin, xmax = _a.xmax, ymax = _a.ymax;
+                // console.log(xmin, ymin, xmax, ymax);
+                topic.publish("aoi/change", [xmin,ymin,xmax,ymax]);
+                // remove the handler so map panning will work when not drawing
+                handler.remove();
+            }
+        });
+        return handler;
+    };
 
+    // Create a symbol for rendering the graphic
+    var fillSymbol = {
+        type: "simple-fill",
+        color: [227, 139, 79, 0.5],
+        outline: {
+            color: [255, 255, 255],
+            width: 1
+        }
+    };
 });
