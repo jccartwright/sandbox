@@ -79,6 +79,8 @@ require([
 
     // add the date input
     var datebox = new DateTextBox({
+        promptMessage: "limit selections to this date",
+        placeHolder: "enter a date",
         constraints: {datePattern:'yyyy-MM-dd'}
     }, "dateTextBoxDiv");
     datebox.startup();

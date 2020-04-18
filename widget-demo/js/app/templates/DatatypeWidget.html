@@ -1,4 +1,6 @@
 <div role="presentation" class="${baseClass}">
-    <input type="text" data-dojo-attach-point="_datatypeText" data-dojo-attach-event="onkeyup: updateDatatype">
-
-    <div data-dojo-attach-point="_filteringSelectDiv">FilteringSelect goes here</div>
+    <div class="${baseClass}-label">Datatype Selectors:</div>
+    <div class="${baseClass}-text">
+        <input  type="text" data-dojo-attach-point="_datatypeText" data-dojo-attach-event="onkeyup: updateDatatype">
+    </div>
+    <div class="${baseClass}-select" data-dojo-attach-point="_filteringSelectDiv">FilteringSelect goes here</div>

@@ -1,14 +1,17 @@
 .DatatypeWidget {
-    background-color: red;
+    background-color: gray;
+    padding: 10px;
 }
 
-.DatatypeWidgetCategory {
-    background-color: green;
+.DatatypeWidget-label {
+    font-size: medium;
+}
+
+.DatatypeWidget-text {
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #widget_dataTypeSelect {
     font-size: 10pt;
 }
-/* #_categorySelect {
-    background-color: yellow;
-} */
