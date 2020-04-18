@@ -6,7 +6,9 @@ require([
     "dijit/form/FilteringSelect",
     "app/Globals",
     "app/DatatypeWidget",
-    "app/DrawRectangleTool",
+    "app/ObservationCategoryWidget",
+    "app/CollectiontypeWidget",
+    "app/DrawExtentTool",
     'esri/request',
     'dojo/on',
     "dojo/topic",
@@ -22,8 +24,10 @@ require([
     MemoryStore, 
     FilteringSelect, 
     globals, 
-    DatatypeWidget, 
-    DrawRectangleTool,
+    DatatypeWidget,
+    ObservationCategoryWidget,
+    CollectiontypeWidget,
+    DrawExtentTool,
     esriRequest, 
     on, 
     topic,
@@ -33,8 +37,6 @@ require([
     webMercatorUtils) {
 
     console.log("application name: ", globals.getName());
-    var extentGraphic = null;
-    var layer = new GraphicsLayer();
 
     var map = new Map({
         basemap: "topo-vector",
@@ -47,20 +49,29 @@ require([
         zoom: 13
     });
 
+    // demonstrate FilteringSelect, autocomplete, load from external datafile
     var datatypeWidget = new DatatypeWidget({datafile: './js/app/datatypes.json'}, 'datatypeWidgetDiv');
     datatypeWidget.startup();
+    // listens for message sent via emit() 
     datatypeWidget.on('datatypes', function(datatypes){
-        // console.log(datatypes)
+        console.log('match: '+datatypes)
     });
 
+    // demonstrate programatically populated Select element
+    const observationCategorySelector = new ObservationCategoryWidget({}, 'observationCategoryWidgetDiv');
+    observationCategorySelector.startup();
+
+    // demonstrate programatically populated Radio Buttons
+    const collectiontypeSelector = new CollectiontypeWidget({}, 'collectiontypeWidgetDiv');
+    collectiontypeSelector.startup();
 
     // tool to draw area of interest on map
-    var drawRectangleTool = new DrawRectangleTool({
+    var drawExtentTool = new DrawExtentTool({
         mapView: view, 
         outlineColor: [0,0,0]
-    }, 'drawRectangleToolDiv');
+    }, 'drawExtentToolDiv');
     // lifecycle method 'startup' called automatically when added to View UI
-    view.ui.add(drawRectangleTool, "top-left");
+    view.ui.add(drawExtentTool, "top-left");
 
 
     // uncomment the line below to enable FilteringSelect

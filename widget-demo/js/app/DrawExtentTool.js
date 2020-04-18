@@ -8,7 +8,7 @@ define([
     'esri/Graphic', 
     'esri/geometry/Extent', 
     'esri/geometry/support/webMercatorUtils',
-    'dojo/text!./templates/DrawRectangleTool.html'],
+    'dojo/text!./templates/DrawExtentTool.html'],
     function(
         declare,
         Evented,
@@ -38,7 +38,7 @@ define([
             },
 
             // CSS class to be applied to the root node in our template
-            baseClass: 'DrawRectangleTool',
+            baseClass: 'DrawExtentTool',
 
             //
             // Widget lifecycle methods. defined in the order in which they are called
@@ -64,7 +64,7 @@ define([
 
 
             startup: function() {
-              console.log('inside startup...');
+            //   console.log('inside startup...');
                 if (! this.mapView) {
                     this.destroy();
                     console.error("DrawExtent::a MapView instance must be provided");

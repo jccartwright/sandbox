@@ -1,0 +1,12 @@
+.ObservationCategoryWidget {
+    padding: 10px;
+    background-color: gray;
+}
+
+.ObservationCategoryWidget-label {
+    font-size: medium;
+}
+
+.ObservationCategoryWidget-select {
+    background-color: lightgray;
+}

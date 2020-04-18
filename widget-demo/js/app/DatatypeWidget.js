@@ -37,32 +37,8 @@ define([
 
             datatypes: null,
 
-            collections: [
-                {value: 1, label: 'one'},
-                {value: 2, label: 'two'},
-                {value: 3, label: 'three'}
-            ],
-
             // CSS class to be applied to the root node in our template
             baseClass: 'DatatypeWidget',
-
-            obsCategories: [
-                {"name":"Benthic FOCE type studies","value":["Benthic FOCE-type study"],"cssClass":"obscat" },
-                {"name":"Benthic mesocosm","value":[""],"cssClass":"obscat" },
-                {"name":"Drifting buoy (Lagrangian studies)","value":["drifting buoy"],"cssClass":"obscat" },
-                {"name":"Fish examination","value":["fish examination"],"cssClass":"obscat" },
-                {"name":"Laboratory experiment","value":["laboratory experiments"],"cssClass":"obscat" },
-                {"name":"Marine mammal observation","value":["marine mammal observation"],"cssClass":"obscat" },
-                {"name":"Model output","value":["model output"],"cssClass":"obscat" },
-                {"name":"Natural perturbation site studies","value":[""],"cssClass":"obscat" },
-                {"name":"Pelagic mesocosm","value":[""],"cssClass":"obscat" },
-                {"name":"Profile/CTD","value":["profile"],"cssClass":"obscat" },
-                {"name":"Pump cast","value":["pump cast"],"cssClass":"obscat" },
-                {"name":"Surface underway","value":["Surface underway"],"cssClass":"obscat" },
-                {"name":"Time series (e.g., moorings)","value":["time series"],"cssClass":"obscat" },
-                {"name":"Tows","value":["tows"],"cssClass":"obscat" },
-                {"name":"Undulating profile (glider, etc)","value":["undulating profile"],"cssClass":"obscat" }
-            ],
 
             //
             // Widget lifecycle methods. defined in the order in which they are called
@@ -81,10 +57,6 @@ define([
                 this.inherited(arguments);
                 this.loadDatatypes();
                 on(this._datatypeText, 'keyup', lang.hitch(this, this.getMatchingValues));
-
-                this.populateCategorySelect();
-
-                this.createInputRadios(this.collections);
             },
 
 
@@ -97,48 +69,6 @@ define([
             //
             // utility methods
             //
-            populateCategorySelect: function() {
-                var select = this._categorySelect;
-                var categories = this.obsCategories.map(element => element.name);
-                categories.forEach(function(category){
-                    var option = document.createElement("option");
-                    option.value = category;
-                    option.text = category;
-                    select.add(option);
-                })
-            },
-
-
-            createInputRadios: function(collections) {
-                this.collections.forEach(function(collection){
-                    var radioDiv = this.createCollectionRadioButton(collection);
-                    this._collectionDiv.appendChild(radioDiv);    
-                }.bind(this));
-            },
-
-
-            createCollectionRadioButton: function(collection) {
-                var radioDiv = document.createElement("div");
-                var radioBtn = document.createElement("input");
-                radioBtn.setAttribute("type", "radio");
-                radioBtn.setAttribute("name", "collection");
-                radioBtn.setAttribute("value", collection.value);
-                radioBtn.addEventListener('click', function(){
-                     console.log(this.value)
-                });
-                radioDiv.appendChild(radioBtn);
-                
-                var radioLabel = document.createElement("label");
-                radioLabel.innerHTML = collection.label;
-                radioDiv.appendChild(radioLabel);
-                return(radioDiv);
-            },
-
-
-            updateCategory: function(event) {
-                console.log('category is now '+event.target.value);
-            },
-
             updateDatatype: function(event) {
                 var str = this._datatypeText.value;
                 var regex = RegExp(str, 'i');
@@ -173,9 +103,10 @@ define([
             datatypeChangeHandler: function(datatype) {
                 // datatype not required so ignore empty values 
                 if(datatype) { 
-                    // console.log(datatype);
-                    // topic.publish("datatype/change", datatype);
-                    this.emit("datatype/change", datatype);
+                    // the following works w/ both "on" and subscribe
+                    topic.publish("datatype/change", datatype);
+                    // following works w/ "on" but not w/ subscribe
+                    // this.emit("datatype/change", datatype);
 
                 }
             },
