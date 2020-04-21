@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "module": "amd",
+      "noImplicitAny": true,
+      "noImplicitUseStrict": false,
+      "esModuleInterop": true,
+      "sourceMap": true,
+      "jsx": "react",
+      "jsxFactory": "tsx",
+      "target": "es5",
+      "experimentalDecorators": true,
+      "preserveConstEnums": true,
+      "suppressImplicitAnyIndexErrors": true,
+    },
+    "include": [
+      "./app/*.ts",
+      "./app/*.tsx"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }
