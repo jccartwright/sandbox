@@ -1,0 +1,123 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Deep Sea Corals - Clustering Experiment</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.15/"></script>
+  
+  <script>  
+    require([
+      "esri/Map",
+      "esri/layers/FeatureLayer",
+      "esri/views/MapView",
+      "esri/widgets/Popup"
+    ], function(Map, FeatureLayer, MapView, Popup) {
+        // Popup.defaultPopupTemplateEnabled = true;
+
+        const clusterConfig = {
+          type: "cluster",
+          clusterRadius: "100px",
+          // {cluster_count} is an aggregate field containing
+          // the number of features comprised by the cluster
+          popupTemplate: {
+            content: "This cluster represents {cluster_count} features."
+          }
+        };
+
+        var clusteredCorals = new FeatureLayer({
+          url:
+            "https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/DeepSeaCorals/FeatureServer/0",
+            maxScale: 1000000,
+            title: "Clusters of Deep Sea Corals",
+            featureReduction: clusterConfig,
+            outFields: ["*"]
+        });
+
+        var popupCorals = {
+          "title": "{scientificname}<br>({vernacularnamecategory})",
+          "content": `<center><hr width="50%"></center>
+            <table colspan="5" style="font-size: x-small" class="smallText1">
+              <tr>
+                <td width="115"><b>Observation Date</b>:</td><td width="100">{OBSERVATIONDATE}</td>
+                <td width="5"></td>
+                <td width="115"><b>Catalog Number</b>:</td><td>{CATALOGNUMBER}</td>
+              </tr>
+              <tr>
+                <td width="115"><b>Entry Update</b>:</td><td width="100">{ENTRYUPDATE}</td>
+                <td width="5"></td><td width="115"><b>Taxonomic Rank</b>:</td><td>{TAXONRANK}</td>
+              </tr>
+              <tr>
+                <td width="115"><b>Depth (m)</b>:</td><td width="100">{depthinmeters}</td>
+                <td width="5"></td><td width="115"><b>Sampling Equipment</b>:</td><td>{samplingequipment}</td>
+              </tr>
+              <tr>
+                <td width="115"><b>Position (lat lon)</b>:</td><td width="100">{latitude}&nbsp;{longitude}</td>
+                <td width="5"></td><td width="115"><b>Location Accuracy(m)</b>:</td><td>{locationaccuracy}</td>
+              </tr>
+            </table>
+            <table colspan="2" style="font-size: x-small" class="smallText1">
+              <tr><td width="115"><b>Location</b>:</td><td>{locality}</td></tr>
+              <tr><td width="115"><b>Sample ID</b>:</td><td>{sampleid}</td></tr>
+              <tr>
+                <td width="115"><b>Dataset ID</b>:</td>
+                <td><a href="javascript:openDatasetPage()"><font color="blue"><u>{datasetid}</u></font></a></td>
+              </tr>
+              <tr><td width="115"><b>Data Provider</b>:</td><td>{dataprovider}</td></tr>
+              <tr><td width="115"><b>Identification Qualifier</b>:</td><td>{identificationqualifier}</td></tr>
+              <tr><td width="115"><b>Citation</b>:</td><td>{citation}</tr>
+            </table>`
+        };
+
+        var corals = new FeatureLayer({
+          url:
+            "https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/DeepSeaCorals/FeatureServer/0",
+            geometryType: "point",
+            color: "green",
+            minScale: 1000000,
+            title: "Deep Sea Corals",
+            outFields: ["*"],
+            renderer: {  // overrides the layer's default renderer
+              type: "simple",
+              symbol: {
+                type: "simple-marker",
+                size: 4,
+                color: "green",
+              }
+            },
+            popupTemplate: popupCorals
+            // popupEnabled: true,
+
+        });
+
+      var map = new Map({
+        basemap: "topo-vector",
+        layers: [clusteredCorals, corals]
+      });
+
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-118.80500, 34.02700],
+        zoom: 13,
+        popup: {
+          autoOpenEnabled: true
+        }
+      });
+
+    });
+  </script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
