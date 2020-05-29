@@ -20,8 +20,9 @@
       "esri/Map",
       "esri/layers/FeatureLayer",
       "esri/views/MapView",
-      "esri/widgets/Popup"
-    ], function(Map, FeatureLayer, MapView, Popup) {
+      "esri/widgets/Popup",
+      "esri/widgets/CoordinateConversion"
+    ], function(Map, FeatureLayer, MapView, Popup, CoordinateConversion) {
         // Popup.defaultPopupTemplateEnabled = true;
 
         const clusterConfig = {
@@ -43,6 +44,7 @@
             outFields: ["*"]
         });
 
+        // TODO HTML taken from legacy application. Needs to be restructured
         var popupCorals = {
           "title": "{scientificname}<br>({vernacularnamecategory})",
           "content": `<center><hr width="50%"></center>
@@ -107,12 +109,17 @@
       var view = new MapView({
         container: "viewDiv",
         map: map,
-        center: [-118.80500, 34.02700],
-        zoom: 13,
+        center: [-118.14, 33.72],
+        zoom: 9,
         popup: {
           autoOpenEnabled: true
         }
       });
+
+      var ccWidget = new CoordinateConversion({
+        view: view
+      });
+      view.ui.add(ccWidget, "bottom-left");
 
     });
   </script>
