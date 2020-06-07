@@ -1,1 +1,1 @@
-(http://jccartwright.github.io/sandbox/)[mockup of the Marine Region's Gazetteer search result]
+[mockup of the Marine Region's Gazetteer search result](http://jccartwright.github.io/sandbox/)
