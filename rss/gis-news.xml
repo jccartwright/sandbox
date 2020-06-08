@@ -10,7 +10,7 @@
         <link>https://www.ncei.noaa.gov/maps</link>
         <description>The latest news on NCEI's geospatial products and services</description>
         <language>en</language>
-        <editor>ncei.gis@noaa.gov</editor>
+        <!-- <editor>ncei.gis@noaa.gov</editor> -->
         <ttl>60</ttl>
         <item>
             <title>issues with WMS access to the Undersea Features map service</title>
