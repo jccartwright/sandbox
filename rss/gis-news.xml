@@ -5,18 +5,19 @@
     xmlns:schema="http://schema.org" 
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <channel>
-        <atom:link href="htts://maps.ngdc.noaa.gov/news.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://maps.ngdc.noaa.gov/news.xml" rel="self" type="application/rss+xml" />
         <title>NCEI Geospatial Products and Services News Feed</title>
-        <link>http://maps.ngdc.noaa.gov/news.xml</link>
+        <link>https://www.ncei.noaa.gov/maps</link>
         <description>The latest news on NCEI's geospatial products and services</description>
         <language>en</language>
+        <editor>ncei.gis@noaa.gov</editor>
+        <ttl>60</ttl>
         <item>
             <title>issues with WMS access to the Undersea Features map service</title>
-            <link>https://gis.ngdc.noaa.gov/arcgis/rest/services/undersea_features/MapServer</link>
             <description>There have been reports that requests to the undersea_features map services have been timing out. We are investigating the problem and will post an update here when available </description>
+            <!-- optional -->
+            <link>https://gis.ngdc.noaa.gov/arcgis/rest/services/undersea_features/MapServer</link>
             <pubDate>Tue, 26 May 2020 08:00:00 -0400</pubDate>
-            <dc:creator>john.c.cartwright</dc:creator>
-            <guid isPermaLink="false">http://www.ncei.noaa.gov/news/link-between-heat-and-hurricanes_</guid>
         </item>
     </channel>
 </rss>
