@@ -11,7 +11,7 @@
         <description>The latest news on NCEI's geospatial products and services</description>
         <language>en</language>
         <!-- <editor>ncei.gis@noaa.gov</editor> -->
-        <ttl>60</ttl>
+        <ttl>0</ttl>
         <item>
             <title>issues with WMS access to the Undersea Features map service</title>
             <description>There have been reports that requests to the undersea_features map services have been timing out. We are investigating the problem and will post an update here when available </description>
