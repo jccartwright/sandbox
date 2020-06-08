@@ -2,8 +2,8 @@
     xmlns:atom="http://www.w3.org/2005/Atom"
     xmlns:dc="http://purl.org/dc/elements/1.1/" 
     xmlns:content="http://purl.org/rss/1.0/modules/content/" 
-    xmlns:schema="http://schema.org/" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+    xmlns:schema="http://schema.org" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <channel>
         <atom:link href="htts://maps.ngdc.noaa.gov/news.xml" rel="self" type="application/rss+xml" />
         <title>NCEI Geospatial Products and Services News Feed</title>
