@@ -18,6 +18,7 @@
             <!-- optional -->
             <link>https://gis.ngdc.noaa.gov/arcgis/rest/services/undersea_features/MapServer</link>
             <pubDate>Tue, 26 May 2020 08:00:00 -0400</pubDate>
+            <uuid isPermaLink="false">c2ea550f-3c31-4f9a-9f1b-a1a933a49cf7</uuid>
         </item>
     </channel>
 </rss>
