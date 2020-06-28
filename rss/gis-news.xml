@@ -11,13 +11,14 @@
         <description>The latest news on NCEI's geospatial products and services</description>
         <language>en</language>
         <!-- <editor>ncei.gis@noaa.gov</editor> -->
-        <ttl>60</ttl>
+        <ttl>1</ttl>
         <item>
             <title>issues with WMS access to the Undersea Features map service</title>
             <description>There have been reports that requests to the undersea_features map services have been timing out. We are investigating the problem and will post an update here when available </description>
             <!-- optional -->
             <link>https://gis.ngdc.noaa.gov/arcgis/rest/services/undersea_features/MapServer</link>
             <pubDate>Tue, 26 May 2020 08:00:00 -0400</pubDate>
+            <guid isPermaLink="false">c2ea550f-3c31-4f9a-9f1b-a1a933a49cf7</guid>
         </item>
     </channel>
 </rss>
